@@ -1,20 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { AppRegistry, View } from 'react-native';
+import { ThemeProvider } from 'react-native-magnus';
+
+import PageProvider from './src/context/pageContext';
+import CurrentPageWidget from './src/components/CurrentPageWidget';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import NoteProvider from './src/context/notesContext';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView edges={['top', 'bottom']}>
+        <ThemeProvider>
+          <PageProvider>
+            <NoteProvider>
+              <View className='h-screen flex flex-col justify-center items-center'>
+                <StatusBar translucent />
+                <CurrentPageWidget />
+              </View>
+            </NoteProvider>
+          </PageProvider>
+        </ThemeProvider>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+AppRegistry.registerComponent('App', () => App);
